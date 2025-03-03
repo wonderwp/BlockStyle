@@ -10,16 +10,6 @@ abstract class AbstractBlockStyle implements BlockStyleInterface
     /** @var array */
     protected array $args = [];
 
-    /**
-     * @param string $key
-     * @param array $args
-     */
-    public function __construct(string $key, array $args = [])
-    {
-        $this->key = $key;
-        $this->args = $args;
-    }
-
     /** @inerhitDoc */
     public function getKey(): string
     {

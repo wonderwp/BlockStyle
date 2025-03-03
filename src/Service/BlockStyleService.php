@@ -21,7 +21,7 @@ class BlockStyleService extends AbstractBlockStyleService
     public function autoload(array $classNameFromFiles = [], array $discoveryPaths = [], callable $successCallback = null, array $excludedClasses=[]): array
     {
         $discoveryPathsRoots = $this->manager->getConfig('discoveryPathsRoots', [
-            'block-types' => rtrim($this->manager->getConfig('path.root') ?? '', DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR
+            'block-styles' => rtrim($this->manager->getConfig('path.root') ?? '', DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR
         ]);
         $discoverFolderSuffix = $this->manager->getConfig('cptservice.discoverFolderSuffix', 'BlockStyles');
         $defaultPaths = $this->deductDefaultDiscoveryPaths($discoveryPathsRoots, $discoverFolderSuffix);
@@ -29,7 +29,7 @@ class BlockStyleService extends AbstractBlockStyleService
 
         $autoLoaded = parent::autoload($classNameFromFiles, $discoveryPaths, $successCallback);
 
-        if (!empty($this->blockTypes)) {
+        if (!empty($this->blockStyles)) {
             $this->registerBlockStyles();
         }
 

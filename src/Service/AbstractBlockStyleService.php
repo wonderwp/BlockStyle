@@ -11,29 +11,29 @@ use WonderWp\Component\Service\AbstractService;
 abstract class AbstractBlockStyleService extends AbstractService implements BlockStyleServiceInterface
 {
     /** @var BlockStyleInterface[] */
-    protected array $blockTypes = [];
+    protected array $blockStyles = [];
 
     public function getBlockStyles(): array
     {
-        return $this->blockTypes;
+        return $this->blockStyles;
     }
 
     public function getBlockStyle(string $key): ?BlockStyleInterface
     {
-        return $this->blockTypes[$key] ?? null;
+        return $this->blockStyles[$key] ?? null;
     }
 
     public function addBlockStyle(BlockStyleInterface $BlockStyle): static
     {
-        $this->blockTypes[$BlockStyle->getKey()] = $BlockStyle;
+        $this->blockStyles[$BlockStyle->getKey()] = $BlockStyle;
 
         return $this;
     }
 
     public function removeBlockStyle(string $key): static
     {
-        if (isset($this->blockTypes[$key])) {
-            unset($this->blockTypes[$key]);
+        if (isset($this->blockStyles[$key])) {
+            unset($this->blockStyles[$key]);
         }
 
         return $this;
@@ -41,7 +41,7 @@ abstract class AbstractBlockStyleService extends AbstractService implements Bloc
 
     public function setBlockStyles(array $BlockStyles): static
     {
-        $this->blockTypes = $BlockStyles;
+        $this->blockStyles = $BlockStyles;
 
         return $this;
     }
@@ -54,33 +54,22 @@ abstract class AbstractBlockStyleService extends AbstractService implements Bloc
     {
         $responses = [];
 
-        foreach ($this->blockTypes as $blockType) {
-            $responses[$blockType->getKey()] = $this->registerBlockStyle($blockType);
+        foreach ($this->blockStyles as $blockStyle) {
+            $responses[$blockStyle->getKey()] = $this->registerBlockStyle($blockStyle);
         }
 
         return $responses;
     }
 
-    public function registerBlockStyle(BlockStyleInterface $blockType): BlockStyleRegistrationResponseInterface
+    public function registerBlockStyle(BlockStyleInterface $blockStyle): BlockStyleRegistrationResponseInterface
     {
         try {
-            $blocksOutputDir = $this->manager->getConfig('path.blocks.build');
-            if (empty($blocksOutputDir)) {
-                $blocksOutputDir = $this->manager->getConfig('path.root') . DIRECTORY_SEPARATOR . 'build';
-                if (is_dir($blocksOutputDir . DIRECTORY_SEPARATOR . 'blocks')) {
-                    $blocksOutputDir = $blocksOutputDir . DIRECTORY_SEPARATOR . 'blocks';
-                }
-            }
+            $wpRes = \register_block_style($blockStyle->getKey(), $blockStyle->getArgs());
 
-            $blocksOutputDir .= DIRECTORY_SEPARATOR . $blockType->getKey();
-
-            $wpRes = \register_block_type($blocksOutputDir, $blockType->getArgs());
-
-            if ($wpRes instanceof \WP_Error) {
-                throw new BlockStyleRegistrationException($wpRes->get_error_message(), $wpRes->get_error_code());
+            if (!$wpRes) {
+                throw new BlockStyleRegistrationException(500, BlockStyleRegistrationResponseInterface::ERROR);
             } else {
                 $response = new BlockStyleRegistrationResponse(200, BlockStyleRegistrationResponseInterface::SUCCESS);
-                $response->setWpRegistrationResult($wpRes);
             }
         } catch (\Exception $e) {
             $errorCode = is_int($e->getCode()) ? $e->getCode() : 500;

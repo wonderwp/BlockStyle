@@ -2,9 +2,9 @@
 
 namespace WonderWp\Component\BlockStyle\Service;
 
-use WonderWp\Component\BlockStyle\Definition\BlockStyleDefinition;
+
 use WonderWp\Component\BlockStyle\Definition\BlockStyleInterface;
-use WonderWp\Component\BlockStyle\Response\BlockStyleRegistrationResponse;
+use WonderWp\Component\BlockStyle\Exception\BlockStyleRegistrationException;
 use WonderWp\Component\BlockStyle\Response\BlockStyleRegistrationResponseInterface;
 use WonderWp\Component\PluginSkeleton\Service\RegistrableInterface;
 
@@ -22,10 +22,10 @@ interface BlockStyleServiceInterface extends RegistrableInterface
     public function getBlockStyle(string $key): ?BlockStyleInterface;
 
     /**
-     * @param BlockStyleInterface $BlockStyle
+     * @param BlockStyleInterface $blockStyle
      * @return $this
      */
-    public function addBlockStyle(BlockStyleInterface $BlockStyle): static;
+    public function addBlockStyle(BlockStyleInterface $blockStyle): static;
 
     /**
      * @param string $key
@@ -34,10 +34,10 @@ interface BlockStyleServiceInterface extends RegistrableInterface
     public function removeBlockStyle(string $key): static;
 
     /**
-     * @param BlockStyleInterface[] $BlockStyles
+     * @param BlockStyleInterface[] $blockStyles
      * @return $this
      */
-    public function setBlockStyles(array $BlockStyles): static;
+    public function setBlockStyles(array $blockStyles): static;
 
     /**
      * Register all BlockStyles
@@ -50,9 +50,9 @@ interface BlockStyleServiceInterface extends RegistrableInterface
     /**
      * Register a BlockStyle
      *
-     * @param BlockStyleInterface $BlockStyle
+     * @param BlockStyleInterface $blockStyle
      * @return BlockStyleRegistrationResponseInterface
      * @throws BlockStyleRegistrationException
      */
-    public function registerBlockStyle(BlockStyleInterface $BlockStyle): BlockStyleRegistrationResponseInterface;
+    public function registerBlockStyle(BlockStyleInterface $blockStyle): BlockStyleRegistrationResponseInterface;
 }

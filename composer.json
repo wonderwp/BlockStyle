@@ -1,6 +1,6 @@
 {
-    "name": "wonderwp/block-styles",
-    "description": "WonderWp Block Styles Component",
+    "name": "wonderwp/block-style",
+    "description": "WonderWp Block Style Component",
     "type": "library",
     "license": "MIT",
     "authors": [
