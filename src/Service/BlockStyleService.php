@@ -40,7 +40,9 @@ class BlockStyleService extends AbstractBlockStyleService
     {
         $instance = parent::autoloadFile($className, $filePath);
 
-        $this->addBlockStyle($instance);
+        if($instance instanceof BlockStyleInterface) {
+            $this->addBlockStyle($instance);
+        }
 
         return $instance;
     }
