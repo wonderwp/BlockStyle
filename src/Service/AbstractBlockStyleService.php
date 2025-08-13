@@ -25,16 +25,7 @@ abstract class AbstractBlockStyleService extends AbstractService implements Bloc
 
     public function addBlockStyle(BlockStyleInterface $BlockStyle): static
     {
-        $this->blockStyles[$BlockStyle->getKey()] = $BlockStyle;
-
-        return $this;
-    }
-
-    public function removeBlockStyle(string $key): static
-    {
-        if (isset($this->blockStyles[$key])) {
-            unset($this->blockStyles[$key]);
-        }
+        $this->blockStyles[] = $BlockStyle;
 
         return $this;
     }

@@ -28,12 +28,6 @@ interface BlockStyleServiceInterface extends RegistrableInterface
     public function addBlockStyle(BlockStyleInterface $blockStyle): static;
 
     /**
-     * @param string $key
-     * @return $this
-     */
-    public function removeBlockStyle(string $key): static;
-
-    /**
      * @param BlockStyleInterface[] $blockStyles
      * @return $this
      */
