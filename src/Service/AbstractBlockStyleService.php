@@ -55,7 +55,10 @@ abstract class AbstractBlockStyleService extends AbstractService implements Bloc
         $responses = [];
 
         foreach ($this->blockStyles as $blockStyle) {
-            $responses[$blockStyle->getKey()] = $this->registerBlockStyle($blockStyle);
+            if(!isset($responses[$blockStyle->getKey()])) {
+                $responses[$blockStyle->getKey()] = [];
+            }
+            $responses[$blockStyle->getKey()][] = $this->registerBlockStyle($blockStyle);
         }
 
         return $responses;
