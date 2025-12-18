@@ -7,9 +7,15 @@ use WonderWp\Component\BlockStyle\Exception\BlockStyleRegistrationException;
 use WonderWp\Component\BlockStyle\Response\BlockStyleRegistrationResponse;
 use WonderWp\Component\BlockStyle\Response\BlockStyleRegistrationResponseInterface;
 use WonderWp\Component\Service\AbstractService;
+use WonderWp\Component\Service\Traits\HasAutoloadingCapabilities;
+use WonderWp\Component\BlockStyle\Traits\HasBlockStyleAutoloader;
 
 abstract class AbstractBlockStyleService extends AbstractService implements BlockStyleServiceInterface
 {
+    use HasAutoloadingCapabilities, HasBlockStyleAutoloader {
+        HasBlockStyleAutoloader::resolveDiscoveryPaths insteadof HasAutoloadingCapabilities;
+        HasBlockStyleAutoloader::afterAutoload insteadof HasAutoloadingCapabilities;
+    }
     /** @var BlockStyleInterface[] */
     protected array $blockStyles = [];
 
